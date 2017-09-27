@@ -4,9 +4,11 @@ import ig from '../lib/instagram'
 
 const router = express.Router()
 
+const redirect_uri = 'https://gttdn.io:3031/auth/handleauth/instagram'
+
 const authorize_user = (req, res) => {
   res.redirect(
-    ig.get_authorization_url('https://gttdn.io:3031/auth/handleauth/instagram', {
+    ig.get_authorization_url(redirect_uri, {
       scope: ['public_content']
     })
   );
