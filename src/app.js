@@ -36,8 +36,8 @@ app.use(passport.initialize())
 require('./lib/passport')(passport)
 
 app.use('/', require('./routes'))
+app.use('/auth', require('./routes/auth'))
 app.use('/accounts', require('./routes/account'))
-app.use('/instagram', require('./routes/instagram'))
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

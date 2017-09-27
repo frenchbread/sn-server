@@ -36,8 +36,6 @@
     "mongoose": "^4.11.12",
     "morgan": "^1.8.2",
     "palm": "^0.0.22",
-    "passport": "^0.4.0",
-    "passport-instagram": "^1.0.0",
     "pug": "^2.0.0-rc.4",
     "serve-favicon": "^2.4.3",
     "twitter": "^1.7.1"

@@ -1,10 +1,6 @@
-import instagramApi from 'instagram-node'
+import ig from '../lib/instagram'
 
 import config from '../config'
-
-const ig = instagramApi.instagram()
-
-ig.use(config.instagram)
 
 export default {
   getForUser () {
