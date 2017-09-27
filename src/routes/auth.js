@@ -1,3 +1,5 @@
+import express from 'express'
+
 import ig from '../lib/instagram'
 
 const router = express.Router()

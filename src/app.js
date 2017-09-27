@@ -5,7 +5,6 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import session from 'express-session'
 import mongoose from 'mongoose'
-import passport from 'passport'
 
 import twitterCron from './cron/twitter'
 import config from './config'
@@ -13,7 +12,6 @@ import config from './config'
 mongoose.connect(config.env === 'development' ? config.database.local : config.database.prod)
 
 const app = express()
-
 
 app.set('views', './views')
 app.set('view engine', 'pug')
@@ -31,9 +29,6 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
-
-app.use(passport.initialize())
-require('./lib/passport')(passport)
 
 app.use('/', require('./routes'))
 app.use('/auth', require('./routes/auth'))
