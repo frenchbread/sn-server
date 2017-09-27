@@ -1,0 +1,7 @@
+.DS_*
+node_modules
+.idea/
+bower_components/
+npm-debug.log
+/lib
+src/config/index.js
