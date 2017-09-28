@@ -3,11 +3,26 @@ import ig from '../lib/instagram'
 import config from '../config'
 
 export default {
-  getForUser () {
-    // ig.user_search('frbrr', {}, function(err, users, remaining, limit) {
-    //   if (err) console.error(err)
-    //
-    //   console.log(users)
-    // });
+  getUserIdByUsername (username) {
+    return new Promise((resolve, reject) => {
+      ig.user_search(username, {}, (err, users, remaining, limit) => {
+        if (err) reject(err)
+
+        if (users.length > 0) {
+          resolve(users[0].id)
+        } else {
+          reject('nothing found')
+        }
+      })
+    })
+  },
+  getMediasForUser (userId) {
+    return new Promise((resolve, reject) => {
+      ig.user_media_recent(userId, {}, (err, medias, pagination, remaining, limit) => {
+        if (err) reject(err)
+
+        resolve(medias)
+      })
+    })
   }
 }

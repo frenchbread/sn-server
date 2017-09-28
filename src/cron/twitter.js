@@ -29,8 +29,26 @@ export default new CronJob('00 */1 * * * *', () => {
             })
             .catch(err => console.error(err))
         } else if (account.type === 'instagram') {
-          // console.log('instagram')
-          // instagramModel.getForUser()
+          instagramModel.getUserIdByUsername(account.name)
+            .then(userId => {
+              instagramModel.getMediasForUser(userId)
+                .then(medias => {
+                  const media = medias[0]
+
+                  if (!account.offset || parseInt(account.offset) < media.created_time) {
+                    const text = `New photo from ${media.user.username} - ${media.link}`
+                    palm.send({ text })
+
+                    accountModel.updateOffset(account._id, media.created_time)
+                      .then(res => console.log('updated offset'))
+                      .catch(err => console.error(err))
+                  } else {
+                    console.log('nothing new')
+                  }
+                })
+                .catch(err => console.error(err))
+            })
+            .catch(err => console.error(err))
         }
       })
     })

@@ -10,6 +10,9 @@ const AccountSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  helper_id: {
+    type: String
+  },
   offset: {
     type: String
   }
