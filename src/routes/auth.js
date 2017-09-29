@@ -1,6 +1,7 @@
 import express from 'express'
 
 import ig from '../lib/instagram'
+import settingModel from '../models/setting'
 
 const router = express.Router()
 
@@ -15,15 +16,48 @@ router.get('/authorize_user/instagram', (req, res) => {
 })
 
 router.get('/handleauth/instagram', (req, res) => {
-  ig.authorize_user(req.query.code, redirect_uri, (err, result) => {
-    if (err) {
-      res.json({ ok: false })
-    } else {
-      console.log('Yay! Access token is ' + result.access_token)
-      ig.use({ access_token: result.access_token })
-      res.send({ ok: true })
-    }
-  })
+
+  settingModel.get()
+    .then(setting => {
+      if (!setting || !setting.instagram_token) {
+        // If token does not exist, request new one & save to db
+        // and return with success status
+        ig.authorize_user(req.query.code, redirect_uri, (err, result) => {
+          if (err) {
+            res.json({ ok: false })
+          } else {
+            console.log('Yay! Access token is ' + result.access_token)
+
+            ig.use({ access_token: result.access_token })
+            settingModel.add(result.access_token)
+              .then(res => res.json({ ok: true, setting }))
+              .catch(err => res.json({ ok: false, err }))
+          }
+        })
+      } else {
+        // If token exists check if it's okay
+        // and return with status
+        ig.user_self_feed({}, function(err, medias, pagination, remaining, limit) {
+          if (err) {
+            ig.authorize_user(req.query.code, redirect_uri, (err, result) => {
+              if (err) {
+                res.json({ ok: false })
+              } else {
+                console.log('Yay! Access token is ' + result.access_token)
+
+                ig.use({ access_token: result.access_token })
+                settingModel.add(result.access_token)
+                  .then(res => res.json({ ok: true, setting }))
+                  .catch(err => res.json({ ok: false, err }))
+              }
+          } else {
+            ig.use({ access_token: setting.instagram_token })
+            res.json({ ok: true, setting })
+          }
+        })
+      }
+    })
+    .catch(err => res.json({ ok: false, err }))
 })
 
 module.exports = router
