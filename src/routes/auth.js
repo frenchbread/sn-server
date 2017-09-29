@@ -50,6 +50,7 @@ router.get('/handleauth/instagram', (req, res) => {
                   .then(res => res.json({ ok: true, setting }))
                   .catch(err => res.json({ ok: false, err }))
               }
+            })
           } else {
             ig.use({ access_token: setting.instagram_token })
             res.json({ ok: true, setting })
