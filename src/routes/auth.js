@@ -6,15 +6,18 @@ import settingModel from '../models/setting'
 const router = express.Router()
 
 const redirect_uri = 'https://gttdn.io:3031/auth/handleauth/instagram'
-// const redirect_uri = 'http://127.0.0.1:8080/auth/handleauth/instagram'
 
 router.get('/authorize_user/instagram', (req, res) => {
 
   settingModel.get()
     .then(setting => {
       if (setting && setting.instagram_token) {
-        res.json({ ok: true, err: 'token exists' })
+        ig.use({ access_token: setting.instagram_token })
+        res.json({ ok: true })
         // Check & apply current token
+        // ig.user_search('frbrr', function(err, users, remaining, limit) {
+        //   console.log(err, users)
+        // });
       } else {
         const url = ig.get_authorization_url(redirect_uri, { scope: ['public_content'] })
         // Get token here
@@ -27,10 +30,8 @@ router.get('/authorize_user/instagram', (req, res) => {
 router.get('/handleauth/instagram', (req, res) => {
   ig.authorize_user(req.query.code, redirect_uri, (err, result) => {
     if (err) {
-      console.log(err)
-      res.json({ ok: false })
+      res.json({ ok: false, err })
     } else {
-      console.log('Yay! Access token is ' + result.access_token)
       res.json({ ok: true })
       // ig.use({ access_token: result.access_token })
       // settingModel.add(result.access_token)
