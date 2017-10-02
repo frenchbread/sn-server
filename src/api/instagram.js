@@ -1,19 +1,28 @@
-import axios from 'axios'
+import ig from '../lib/instagram'
 
 import config from '../config'
 
 export default {
-  checkForNewMedia () {
-    let url = 'https://api.instagram.com/v1/subscriptions'
-    url += `?client_id=${config.instagram.client_id}&`
-    url += `client_secret=${config.instagram.client_secret}&`
-    url += `object=frbrr&`
-    url += `aspect=media&`
-    url += `verify_token=${config.instagram.token}&`
-    url += `callback_url=https://gttdn.io:3031/subs`
+  getUserIdByUsername (username) {
+    return new Promise((resolve, reject) => {
+      ig.user_search(username, {}, (err, users, remaining, limit) => {
+        if (err) reject(err)
 
-    axios.get(url)
-      .then(res => console.log(res.data))
-      .catch(err => console.error(err))
+        if (users.length > 0) {
+          resolve(users[0].id)
+        } else {
+          reject('nothing found')
+        }
+      })
+    })
+  },
+  getMediasForUser (userId) {
+    return new Promise((resolve, reject) => {
+      ig.user_media_recent(userId, {}, (err, medias, pagination, remaining, limit) => {
+        if (err) reject(err)
+
+        resolve(medias)
+      })
+    })
   }
 }
