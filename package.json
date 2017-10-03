@@ -35,6 +35,7 @@
     "lusca": "^1.5.1",
     "mongoose": "^4.11.12",
     "morgan": "^1.8.2",
+    "node-vkapi": "^2.1.0",
     "palm": "^0.0.22",
     "pug": "^2.0.0-rc.4",
     "serve-favicon": "^2.4.3",

@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 import session from 'express-session'
 import mongoose from 'mongoose'
 
-import twitterCron from './cron/twitter'
+import cron from './cron'
 import config from './config'
 
 mongoose.connect(config.env === 'development' ? config.database.local : config.database.prod)
@@ -68,4 +68,4 @@ app.use((err, req, res, next) => {
 export default app
 
 // cron jobs
-twitterCron.start()
+cron.start()
