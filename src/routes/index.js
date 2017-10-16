@@ -5,7 +5,7 @@ const router = express.Router()
 
 // home
 router.get('/', (req, res) => {
-  res.render('index', intexModel())
+  res.json(intexModel())
 })
 
 module.exports = router

@@ -1,28 +1,17 @@
-import ig from '../lib/instagram'
-
-import config from '../config'
+import axios from 'axios'
 
 export default {
-  getUserIdByUsername (username) {
+  getUserMedia (username) {
     return new Promise((resolve, reject) => {
-      ig.user_search(username, {}, (err, users, remaining, limit) => {
-        if (err) reject(err)
-
-        if (users.length > 0) {
-          resolve(users[0].id)
-        } else {
-          reject('nothing found')
-        }
-      })
-    })
-  },
-  getMediasForUser (userId) {
-    return new Promise((resolve, reject) => {
-      ig.user_media_recent(userId, {}, (err, medias, pagination, remaining, limit) => {
-        if (err) reject(err)
-
-        resolve(medias)
-      })
+      axios.get(`https://www.instagram.com/${username}/?__a=1`)
+        .then(res => {
+          if (res.data && res.data.user) {
+            resolve(res.data.user)
+          } else {
+            reject('This user does not exist')
+          }
+        })
+        .catch(err => reject(err))
     })
   }
 }

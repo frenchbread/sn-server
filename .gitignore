@@ -4,4 +4,4 @@ node_modules
 bower_components/
 npm-debug.log
 /lib
-src/config/index.js
+src/config/*
