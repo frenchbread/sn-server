@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import session from 'express-session'
 import mongoose from 'mongoose'
+import cors from 'cors'
+import passport from 'passport'
 
 import cron from './cron'
 import config from './config'
@@ -29,9 +31,14 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }))
+app.use(cors())
+app.use(passport.initialize())
+require('./lib/passport')(passport)
 
 app.use('/', require('./routes'))
 app.use('/accounts', require('./routes/account'))
+app.use('/users', require('./routes/users'))
+app.use('/settings', require('./routes/settings'))
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

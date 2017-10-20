@@ -18,6 +18,10 @@ const AccountSchema = mongoose.Schema({
   },
   offset: {
     type: String
+  },
+  createdBy: {
+    type: String,
+    ref: 'User'
   }
 })
 

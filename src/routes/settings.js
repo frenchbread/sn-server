@@ -1,7 +1,7 @@
 import express from 'express'
 import passport from 'passport'
 
-import accountModel from '../models/account'
+import settingsModel from '../models/settings'
 
 const router = express.Router()
 
@@ -10,28 +10,26 @@ router.post('/', passport.authenticate('jwt', { session: false }), (req, res) =>
 
   data.createdBy = req.user._id
 
-  accountModel.add(data)
-    .then(accs => res.json(accs))
+  settingsModel.add(data)
+    .then(settings => res.json(settings))
     .catch(err => res.status(500))
 })
 
 router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   const createdBy = req.user._id
 
-  accountModel.getAll({ createdBy })
-    .then(accs => res.json(accs))
+  settingsModel.getOne({ createdBy })
+    .then(settings => res.json(settings))
     .catch(err => res.status(500))
 })
 
-router.delete('/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const _id = req.params._id
+router.put('/', passport.authenticate('jwt', { session: false }), (req, res) => {
   const createdBy = req.user._id
+  const data = req.body
 
-  if (_id) {
-    accountModel.remove({ _id, createdBy })
-      .then(data => res.json(data))
-      .catch(() => res.status(500))
-  }
+  settingsModel.update({ createdBy }, data)
+    .then(settings => res.json(settings))
+    .catch(() => res.status(500))
 })
 
 module.exports = router

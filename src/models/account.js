@@ -1,4 +1,4 @@
-import Account from '../schema/account'
+import Account from '../schemas/account'
 
 export default {
   add (data) {
@@ -7,14 +7,29 @@ export default {
     return new Promise((resolve, reject) => {
       acc.save((err, res) => {
         if (err) reject(err)
-        resolve(res)
+
+        this.getOne({ _id: res._id })
+          .then(acc1 => resolve(acc1))
+          .catch(err1 => reject(err1))
       })
+    })
+  },
+  getOne (q) {
+    return new Promise((resolve, reject) => {
+      Account
+        .findOne(q)
+        .populate('createdBy', 'email _id')
+        .exec((err, res) => {
+          if (err) reject(err)
+          resolve(res)
+        })
     })
   },
   getAll () {
     return new Promise((resolve, reject) => {
       Account
-        .find()
+        .find({})
+        .populate('createdBy', 'email _id')
         .exec((err, res) => {
           if (err) reject(err)
           resolve(res)

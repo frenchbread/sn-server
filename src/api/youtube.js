@@ -12,8 +12,6 @@ var TOKEN_PATH = TOKEN_DIR + 'youtube-nodejs-quickstart.json';
 export default {
   getLatestVideoIdForChannel (channel) {
     return new Promise((resolve, reject) => {
-      console.log('getting data from youtube');
-      console.log(process.cwd() + '/src/config/client_secret.json');
       // Load client secrets from a local file.
       fs.readFile(process.cwd() + '/src/config/client_secret.json', function processClientSecrets(err, content) {
         if (err) reject('Error loading client secret file: ' + err)
