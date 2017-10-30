@@ -6,8 +6,7 @@ const VK = new VKApi(config.vk)
 
 VK.authorize()
   .then(res => {
-    console.log('auth ok')
-    console.log(res)
+    console.log('vk auth ok')
   })
   .catch(err => console.error(err.message))
 
