@@ -8,7 +8,7 @@ import instagramNotifier from './instagram'
 import vkNotifier from './vk'
 import youtubeNotifier from './youtube'
 
-export default new CronJob('00 */1 * * * *', () => {
+export default new CronJob('00 */5 * * * *', () => {
   accountModel.getAll()
     .then(accounts => {
       _.forEach(accounts, account => {
