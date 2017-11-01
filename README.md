@@ -39,6 +39,8 @@ export default {
 
 ## Setup
 
+> **Note:** SN-server requires MongoDB instance up and running.
+
 ```bash
 # Install dependencies
 $ yarn install
