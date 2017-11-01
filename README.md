@@ -51,5 +51,9 @@ $ yarn run build
 $ yarn run start
 ```
 
+## TODO
+
+- [ ] Add guide explaining how to obtain API keys for social services.
+
 ## LICENSE
 [MIT](https://github.com/frenchbread/sn-server/blob/master/LICENSE.md)
