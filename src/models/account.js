@@ -25,10 +25,10 @@ export default {
         })
     })
   },
-  getAll () {
+  getAll (q) {
     return new Promise((resolve, reject) => {
       Account
-        .find({})
+        .find(q)
         .populate('createdBy', 'email _id')
         .exec((err, res) => {
           if (err) reject(err)
