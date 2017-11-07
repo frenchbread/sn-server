@@ -1,6 +1,9 @@
 import mongoose from 'mongoose'
 
 const SettingsSchema = mongoose.Schema({
+  admin: {
+    type: String
+  },
   twitter: {
     type: String
   },

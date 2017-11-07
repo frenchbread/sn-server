@@ -9,6 +9,7 @@ import vkNotifier from './vk'
 import youtubeNotifier from './youtube'
 
 export default new CronJob('00 */5 * * * *', () => {
+  console.log('----- tick -----')
   accountModel.getAll()
     .then(accounts => {
       _.forEach(accounts, account => {
@@ -24,4 +25,4 @@ export default new CronJob('00 */5 * * * *', () => {
       })
     })
     .catch(err => new Error(err.message))
-}, null, true, 'America/Los_Angeles')
+}, null, true, 'Europe/Moscow')

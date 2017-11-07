@@ -19,8 +19,12 @@ export default {
   },
   telegram: {
     url: 'https://api.telegram.org/bot',
-    token: '<telegram_bot_api_token>',
-    parent: '<backup_telegram_userId>'
+    socials: {
+      twitter_token: '<twitter_token>',
+      instagram_token: '<instagram_token>',
+      vk_token: '<vk_token>',
+      youtube_token: '<youtube_token>'
+    }
   },
   twitter: {
     consumer_key: '',
