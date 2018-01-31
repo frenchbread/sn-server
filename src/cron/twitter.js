@@ -5,6 +5,7 @@ import settingsModel from '../models/settings'
 import { twitterPalm } from '../lib/palms'
 
 export default async account => {
+  console.log('-- Checking for twitter user : ', account.username, ' --')
   const tweets = await twitterModel.getForUser(account.username)
   const settings = await settingsModel.getOne({ createdBy: account.createdBy._id })
 
@@ -33,9 +34,9 @@ const notify = ({ account, sendTo, tweet }) => {
     to: sendTo,
     text: `New tweet from ${tweet.user.screen_name} - https://twitter.com/${tweet.user.screen_name}`
   })
-  console.log('twitter: message sent')
+  console.log('twitter: message sent about new post from ', account.username)
 
   accountModel.updateOffset(account._id, tweet.id)
-    .then(res => console.log('twitter: updated offset'))
+    .then(res => console.log('twitter: updated offset for ', account.username))
     .catch(err => console.error(err))
 }

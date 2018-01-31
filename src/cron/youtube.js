@@ -5,6 +5,7 @@ import settingsModel from '../models/settings'
 import { youtubePalm } from '../lib/palms'
 
 export default async account => {
+  console.log('-- Checking for youtube user : ', account.username, ' --')
   const offset = await youtubeModel.getLatestVideoIdForChannel(account.username)
   const settings = await settingsModel.getOne({ createdBy: account.createdBy._id })
 
@@ -30,6 +31,8 @@ const notify = ({ account, sendTo, offset }) => {
     to: sendTo,
     text: `New video on youtube from https://youtube.com/channel/${account.username}`
   })
+
+  console.log('youtube: message sent about new post from ', account.username)
 
   accountModel.updateOffset(account._id, offset)
     .then(res => console.log('youtube: updated offset'))

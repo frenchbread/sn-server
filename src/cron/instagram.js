@@ -5,6 +5,7 @@ import settingsModel from '../models/settings'
 import { instagramPalm } from '../lib/palms'
 
 export default async account => {
+  console.log('-- Checking for instagram user : ', account.username, ' --')
   const instaUser = await instagramModel.getUserMedia(account.username)
   const settings = await settingsModel.getOne({ createdBy: account.createdBy._id })
 
@@ -33,7 +34,7 @@ const notify = ({ account, sendTo, username, media }) => {
     to: sendTo,
     text: `New photo from ${username} - https://instagram.com/p/${media.code}`
   })
-  console.log('instagram: message sent')
+  console.log('instagram: message sent about new post from ', account.username)
 
   accountModel.updateOffset(account._id, media.date)
     .then(res => console.log('instagram: updated offset'))

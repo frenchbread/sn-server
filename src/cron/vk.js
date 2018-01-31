@@ -5,6 +5,7 @@ import settingsModel from '../models/settings'
 import { vkPalm } from '../lib/palms'
 
 export default async account => {
+  console.log('-- Checking for vk user : ', account.username, ' --')
   const post = await vkModel.getLastPost(account.username)
   const settings = await settingsModel.getOne({ createdBy: account.createdBy._id })
 
@@ -32,6 +33,8 @@ const notify = ({ account, sendTo, offset }) => {
     to: sendTo,
     text: `New post on vk from https://vk.com/${account.username}`
   })
+
+  console.log('vk: message sent about new post from ', account.username)
 
   accountModel.updateOffset(account._id, offset)
     .then(res => console.log('vk: updated offset'))
