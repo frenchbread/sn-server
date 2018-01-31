@@ -42,7 +42,10 @@ export default {
         .update({ _id }, { offset })
         .exec((err, res) => {
           if (err) reject(err)
-          resolve(res)
+
+          this.getOne({ _id })
+            .then(res1 => resolve(res1))
+            .catch(err1 => reject(err1))
         })
     })
   },
