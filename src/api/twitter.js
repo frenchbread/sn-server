@@ -1,11 +1,10 @@
 import Twitter from 'twitter'
+const client = new Twitter(config.twitter)
 
 import config from '../config'
 
 export default {
   getForUser (screen_name) {
-    const client = new Twitter(config.twitter)
-
     const params = { screen_name }
 
     return new Promise((resolve, reject) => {
