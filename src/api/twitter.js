@@ -10,7 +10,7 @@ export default {
 
     return new Promise((resolve, reject) => {
       client.get('statuses/user_timeline', params, (err, tweets, response) => {
-        if (err) reject(err)
+        if (err) console.error('twitter:err: ', err.message)
 
         resolve(tweets)
       })

@@ -8,10 +8,10 @@ export default {
           if (res.data && res.data.user) {
             resolve(res.data.user)
           } else {
-            reject('This user does not exist')
+            console.error('instagram:err: This user does not exist')
           }
         })
-        .catch(err => reject(err))
+        .catch(err => console.error('instagram:err: ' + err.message))
     })
   }
 }

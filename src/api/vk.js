@@ -5,9 +5,7 @@ import config from '../config'
 const VK = new VKApi(config.vk)
 
 VK.authorize()
-  .then(res => {
-    console.log('vk auth ok')
-  })
+  .then(res => console.log('vk auth ok'))
   .catch(err => console.error(err.message))
 
 export default {
@@ -15,7 +13,7 @@ export default {
     return new Promise((resolve, reject) => {
       VK.call('wall.get', { domain })
         .then(res => resolve(res.items[0]))
-        .catch(err => reject(err))
+        .catch(err => console.error('vk:err: ', err.message))
     })
   }
 }

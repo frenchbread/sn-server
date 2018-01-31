@@ -14,12 +14,12 @@ export default {
     return new Promise((resolve, reject) => {
       // Load client secrets from a local file.
       fs.readFile(process.cwd() + '/src/config/client_secret.json', function processClientSecrets(err, content) {
-        if (err) reject('Error loading client secret file: ' + err)
+        if (err) console.error('Error loading client secret file: ' + err.message)
 
         // Authorize a client with the loaded credentials, then call the YouTube API.
         authorize(JSON.parse(content), (auth) => {
           getLatestVideoForChannel(auth, channel, (err, video) => {
-            if (err) reject(err)
+            if (err) console.error(err.message)
 
             resolve(video.snippet.resourceId.videoId)
           })
