@@ -49,6 +49,19 @@ export default {
         })
     })
   },
+  update (q, data) {
+    return new Promise((resolve, reject) => {
+      Account
+        .update(q, data)
+        .exec((err, res) => {
+          if (err) reject(err)
+
+          this.getOne(q)
+            .then(res1 => resolve(res1))
+            .catch(err1 => reject(err1))
+        })
+    })
+  },
   remove (q) {
     return new Promise((resolve, reject) => {
       Account

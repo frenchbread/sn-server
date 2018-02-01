@@ -19,6 +19,10 @@ const AccountSchema = mongoose.Schema({
   offset: {
     type: String
   },
+  needsManualCheck: {
+    type: Boolean,
+    default: false
+  },
   createdBy: {
     type: String,
     ref: 'User'

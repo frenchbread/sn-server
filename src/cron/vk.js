@@ -2,6 +2,8 @@ import vkModel from '../api/vk'
 import accountModel from '../models/account'
 import settingsModel from '../models/settings'
 
+import config from '../config'
+
 import { vkPalm } from '../lib/palms'
 
 export default async account => {
@@ -16,22 +18,34 @@ export default async account => {
 
   const post = withoutPinned[0]
 
-  const offset = post.id.toString() + post.from_id.toString() + post.date.toString()
-
-  if (!account.offset || parseInt(account.offset) !== parseInt(offset)) {
-    if (settings && settings.admin) {
-      notify({ account, sendTo: settings.admin, offset, post })
-    } else {
-      console.log(`vk "${account.username}": no settings for admin`)
-    }
-
-    if (settings && settings.vk) {
-      notify({ account, sendTo: settings.vk, offset, post })
-    } else {
-      console.log(`vk "${account.username}": no settings for vk`)
-    }
+  if (post.from_id === config.vk.userId && post.owner_id === config.vk.userId) {
+    accountModel.update({ _id: account._id }, { needsManualCheck: true })
+      .then(res => console.log(`${account.name} was flagged as acc that needs manual checking.`))
+      .catch(err => console.error(err.message))
   } else {
-    console.log(`vk "${account.username}": nothing new on vk`)
+    const offset = post.id.toString() + post.from_id.toString() + post.date.toString()
+
+    if (!account.offset || parseInt(account.offset) !== parseInt(offset)) {
+      if (settings && settings.admin) {
+        notify({ account, sendTo: settings.admin, offset, post })
+      } else {
+        console.log(`vk "${account.username}": no settings for admin`)
+      }
+
+      if (settings && settings.vk) {
+        notify({ account, sendTo: settings.vk, offset, post })
+      } else {
+        console.log(`vk "${account.username}": no settings for vk`)
+      }
+    } else {
+      console.log(`vk "${account.username}": nothing new on vk`)
+    }
+
+    if (account.needsManualCheck === true || !account.needsManualCheck) {
+      accountModel.update({ _id: account._id }, { needsManualCheck: false })
+        .then(res => console.log(`${account.name} was unflagged as acc that needs manual checking.`))
+        .catch(err => console.error(err.message))
+    }
   }
 }
 

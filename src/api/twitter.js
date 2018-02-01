@@ -1,6 +1,8 @@
 import Twitter from 'twitter'
 const client = new Twitter(config.twitter)
 
+import accountModel from '../models/account'
+
 import config from '../config'
 
 export default {
@@ -13,9 +15,17 @@ export default {
 
     return new Promise((resolve, reject) => {
       client.get('statuses/user_timeline', params, (err, tweets, response) => {
-        if (err) console.error('twitter:err: ', err.message)
-
-        resolve(tweets)
+        if (err) {
+          if (err[0].code === 34) {
+            accountModel.update({ username: screen_name }, { needsManualCheck: true })
+              .then(res => console.log(`${screen_name} was flagged as acc one that needs manual checking.`))
+              .catch(err => console.error(err.message))
+          } else {
+            console.error('twitter:err: ', err.message)
+          }
+        } else {
+          resolve(tweets)
+        }
       })
     })
   }

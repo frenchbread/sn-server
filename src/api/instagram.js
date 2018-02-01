@@ -1,4 +1,5 @@
 import axios from 'axios'
+import accountModel from '../models/account'
 
 export default {
   getUserMedia (username) {
@@ -11,7 +12,15 @@ export default {
             console.error('instagram:err: This user does not exist')
           }
         })
-        .catch(err => console.error('instagram:err: ' + err.message))
+        .catch(err => {
+          if (err.response.status === 404) {
+            accountModel.update({ username }, { needsManualCheck: true })
+              .then(res => console.log(`${username} was flagged as acc that needs manual checking.`))
+              .catch(err => console.error(err.message))
+          } else {
+            console.error('instagram:err: ' + err.message)
+          }
+        })
     })
   }
 }

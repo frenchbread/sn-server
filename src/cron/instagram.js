@@ -26,6 +26,12 @@ export default async account => {
   } else {
     console.log(`instagram "${account.username}": nothing new on instagram`)
   }
+
+  if (account.needsManualCheck === true || !account.needsManualCheck) {
+    accountModel.update({ _id: account._id }, { needsManualCheck: false })
+      .then(res => console.log(`${account.name} was unflagged as acc that needs manual checking.`))
+      .catch(err => console.error(err.message))
+  }
 }
 
 const notify = ({ account, sendTo, username, media }) => {
