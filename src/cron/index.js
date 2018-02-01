@@ -9,7 +9,7 @@ import vkNotifier from './vk'
 import youtubeNotifier from './youtube'
 
 export default new CronJob('00 */5 * * * *', () => {
-  console.log('----- tick -----')
+  console.log(`----- tick [${new Date()}] -----`)
   accountModel.getAll()
     .then(accounts => {
       _.forEach(accounts, account => {
