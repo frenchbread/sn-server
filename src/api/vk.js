@@ -11,8 +11,8 @@ VK.authorize()
 export default {
   getLastPost (domain) {
     return new Promise((resolve, reject) => {
-      VK.call('wall.get', { domain })
-        .then(res => resolve(res.items[0]))
+      VK.call('wall.get', { domain, filter: 'owner' })
+        .then(res => resolve(res.items))
         .catch(err => console.error('vk:err: ', err.message))
     })
   }
