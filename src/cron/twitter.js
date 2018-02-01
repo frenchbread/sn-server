@@ -31,7 +31,7 @@ export default async account => {
 const notify = ({ account, sendTo, tweet }) => {
   twitterPalm.send({
     to: sendTo,
-    text: `New tweet from ${tweet.user.screen_name} - https://twitter.com/${tweet.user.screen_name}`
+    text: `New tweet from ${tweet.user.screen_name} - https://twitter.com/frbrr/status/${tweet.id_str}`
   })
   console.log(`twitter "${account.username}": message sent about new post`)
 
