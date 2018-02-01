@@ -10,6 +10,9 @@ export default {
             resolve(res.data.user)
           } else {
             console.error('instagram:err: This user does not exist')
+            accountModel.update({ username }, { needsManualCheck: true })
+              .then(res => console.log(`${username} was flagged as acc that needs manual checking.`))
+              .catch(err => console.error(err.message))
           }
         })
         .catch(err => {

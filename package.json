@@ -1,6 +1,6 @@
 {
   "name": "sn-server",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Server for SN app.",
   "main": "app.js",
   "scripts": {
